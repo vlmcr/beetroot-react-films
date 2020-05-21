@@ -5,7 +5,12 @@ import {AppContext} from "../App";
 
 const FilmCard = ({film}) => {
 
+    const {editFilm, deleteFilm} = useContext(AppContext)
+
     const { selectFilmForEdit } = useContext(AppContext)
+    const [confirm, setConfirm] = useState(false)
+    const showConfirm = () => setConfirm(true)
+    const hideConfirm = () => setConfirm(false)
 
     const [showDescription, setShowDescription] = useState(false)
 
@@ -19,7 +24,7 @@ const FilmCard = ({film}) => {
                 </div>
             ) : (
                 <div className="image">
-                    <span onClick={() => selectFilmForEdit(film)} className="ui green label ribbon">{film.title}</span>
+                    <span className="ui green label ribbon">{film.title}</span>
                     <Featured featured={film.featured} filmId={film._id} />
                     <img src={film.img} alt={film.title} />
                 </div>
@@ -35,13 +40,35 @@ const FilmCard = ({film}) => {
                     <span className="right floated">
               <i className="icon wait right" />
                         {film.duration} min
-            </span>
+                </span>
                 </div>
 
                 <div className="content">
                     <i  onClick={handleDescription}
                         className={`icon link eye ${showDescription ? "slash" : ""}`}
                     />
+                </div>
+
+                <div className="extra content">
+                    {confirm ? (
+                        <div className="ui two buttons">
+                            <span  className="ui red basic button"  onClick={() => deleteFilm(film)}>
+                              <i className="ui icon check" /> YES
+                            </span>
+                            <span className="ui grey basic button" onClick={hideConfirm}>
+                              <i className="ui icon trash" /> NO
+                            </span>
+                        </div>
+                    ) : (
+                        <div className="ui two buttons">
+                            <span  className="ui green basic button"  onClick={() => selectFilmForEdit(film)}>
+                              <i className="ui icon edit" />
+                            </span>
+                            <span className="ui red basic button" onClick={showConfirm}>
+                              <i className="ui icon trash" />
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

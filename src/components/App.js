@@ -38,6 +38,13 @@ class App extends Component {
             showAddForm: false,
         }))
 
+    deleteFilm = film =>
+        this.setState(({items}) => ({
+            items: items.filter(item => item._id !== film._id),
+            selectedFilm: {},
+            showAddForm: false,
+        }))
+
     updateFilm = film =>
         this.setState(({items}) => ({
             items: this.sortFilms(
@@ -65,7 +72,7 @@ class App extends Component {
 
         return (
             <AppContext.Provider
-                value={{toggleFeatured: this.toggleFeatured, selectFilmForEdit: this.selectFilmForEdit}} >
+                value={{toggleFeatured: this.toggleFeatured, selectFilmForEdit: this.selectFilmForEdit, deleteFilm: this.deleteFilm}} >
                 <div className="ui container mt-3">
                     <TopNavigation showAddForm={this.showAddForm}/>
 
