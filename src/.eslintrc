@@ -4,10 +4,11 @@
   },
   "rules": {
     "valid-typeof": "off",
-    "no-console": "error"
+    "no-console": "error",
+    "semi": ["never"]
   },
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended", "eslint-config-prettier"
   ],
   "env": {
     "browser": true

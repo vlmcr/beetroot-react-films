@@ -1,16 +1,6 @@
-// const name = "Bill";
-// typeof name === "string";
+import React from "react"
+import {render} from "react-dom"
+import 'semantic-ui-css/semantic.min.css';
+import App from "./components/App";
 
-
-
-if(!('serviceWorker' in navigator)) {
-    // you have an old browser
-}
-
-const greeting = "Hello";
-console.log(`${greeting} world`);
-
-/* eslint-disable */
-
-[(1,2, 3)].forEach(x => console.log(x));
-
+render(<App />, document.getElementById("root"))
