@@ -1,8 +1,11 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
 import Featured from "./Featured";
+import {AppContext} from "../App";
 
 const FilmCard = ({film}) => {
+
+    const { selectFilmForEdit } = useContext(AppContext)
 
     const [showDescription, setShowDescription] = useState(false)
 
@@ -16,14 +19,14 @@ const FilmCard = ({film}) => {
                 </div>
             ) : (
                 <div className="image">
-                    <span className="ui green label ribbon">{film.title}</span>
+                    <span onClick={() => selectFilmForEdit(film)} className="ui green label ribbon">{film.title}</span>
                     <Featured featured={film.featured} filmId={film._id} />
                     <img src={film.img} alt={film.title} />
                 </div>
             )}
 
             <div className="content">
-                <a href="/" className="header">
+                <a href="#" className="header">
                     {film.title}
                 </a>
                 <div className="meta">

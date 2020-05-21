@@ -14,21 +14,38 @@ export {AppContext};
 class App extends Component {
 
     state = {
+        selectedFilm: {},
         items: [],
         showAddForm: false,
     }
 
-    showAddForm = e => this.setState({showAddForm: true})
+    showAddForm = e => this.setState({showAddForm: true, selectedFilm: {}, })
 
-    hideAddForm = e => this.setState({showAddForm: false})
+    hideAddForm = e => this.setState({showAddForm: false, selectedFilm: {} })
 
     sortFilms = films => orderBy(films, ["featured", "title"], ["desc", "asc"])
 
-    saveFilm = film =>
+    selectFilmForEdit = selectedFilm => {
+        this.setState({
+            selectedFilm,
+            showAddForm: true,
+        })
+    }
+
+    addFilm = film =>
         this.setState(({items}) => ({
-            items: this.sortFilms([...items, {...film, _id: id() }]),
+            items: this.sortFilms([...items, {...film, _id: id()}]),
             showAddForm: false,
         }))
+
+    updateFilm = film =>
+        this.setState(({items}) => ({
+            items: this.sortFilms(
+                items.map(item => (item._id === film._id ? film : item)),
+            ),
+            showAddForm: false,
+        }))
+
 
     toggleFeatured = id =>
         this.setState(({items}) => ({
@@ -47,14 +64,15 @@ class App extends Component {
         const {items, showAddForm} = this.state;
 
         return (
-            <AppContext.Provider value={{toggleFeatured: this.toggleFeatured}} >
+            <AppContext.Provider
+                value={{toggleFeatured: this.toggleFeatured, selectFilmForEdit: this.selectFilmForEdit}} >
                 <div className="ui container mt-3">
                     <TopNavigation showAddForm={this.showAddForm}/>
 
                     <div className="ui stackable grid">
                         {showAddForm && (
                            <div className="six wide column">
-                               <FilmForm saveFilm={this.saveFilm} hideAddForm={this.hideAddForm}/>
+                               <FilmForm film={this.state.selectedFilm} updateFilm={this.updateFilm} saveFilm={this.addFilm} hideAddForm={this.hideAddForm}/>
                            </div>
                         )}
 

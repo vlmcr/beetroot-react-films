@@ -1,9 +1,12 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {genres, tags} from "../../data";
 import ReactImageFallback from "react-image-fallback"
 import FormMessage from "./FormMessage";
+import {AppContext} from "../App";
 
 const initialState = {
+    _id: null,
+
     title: "",
     description: "",
     director: "",
@@ -15,10 +18,19 @@ const initialState = {
     select: [],
 }
 
-function FilmForm({hideAddForm, saveFilm}) {
+function FilmForm({hideAddForm, saveFilm, updateFilm, film}) {
 
     const [data, setData] = useState(initialState);
     const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        if (film._id) {
+            setData(film)
+        } else {
+            setData(initialState)
+        }
+    }, [film])
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,7 +40,7 @@ function FilmForm({hideAddForm, saveFilm}) {
         if (Object.keys(errors).length === 0) {
             console.log("OK: ", data);
 
-            saveFilm(data)
+            data._id ? updateFilm(data) : saveFilm(data);
         }
     }
 
