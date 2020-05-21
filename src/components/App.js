@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import { films } from "../data";
 import FilmsList from "./films";
 import {orderBy} from "lodash";
+import FilmForm from "./films/FilmForm";
 
 const AppContext = React.createContext();
 export {AppContext};
@@ -32,6 +33,8 @@ class App extends Component {
         return (
             <AppContext.Provider value={{toggleFeatured: this.toggleFeatured}} >
                 <div className="ui container mt-3">
+                    <FilmForm/>
+                    <hr/>
                     <FilmsList films={this.state.items}/>
                 </div>
             </AppContext.Provider>
